@@ -1,14 +1,19 @@
 <?php
+//phpQuery匹配类库
 require './phpQuery/phpQuery.php';
+//引入配置文件
+require './config.php';
 class Pc{
-    //请求方法
+  //请求方法
   public function request($url,$https=true,$method='get',$data=null){
     //1.初始化
     $ch = curl_init($url);
     //2.设置curl
     //返回数据不输出
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_REFERER, 'http://www.zhaopin.com/');
+    //根据url设置referer
+    $host = parse_url($url)['host'];
+    curl_setopt($ch, CURLOPT_REFERER, 'http://'.$host);
     curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36');
     //满足https
     if($https === true){
@@ -27,8 +32,20 @@ class Pc{
     curl_close($ch);
     return $content;
   }
+  //写入数据库方法
+  public function add($data,$mysqli){
+    $keys = implode(array_keys($data), ',');
+    $keys = 'id,'.$keys;
+    $values = implode(array_values($data), '\',\'');
+    $values .= '\'';
+    $values = 'null,\''.$values;
+    $sql = 'INSERT INTO curl.zhilian ('.$keys.') VALUES ('.$values.');';
+    // echo $sql;
+    var_dump($mysqli->multi_query($sql));
+    echo mysqli_error($mysqli);
+  }
   //获取首页
-  public function getIndex($keyword='php',$page=1){
+  public function getIndex($keyword='php',$page=5){
     //定义一个篮子,用来存储所有的招聘链接
     $hrefsArray = array();
     //遍历,确定取几页
@@ -52,6 +69,10 @@ class Pc{
   }
   //访问并获取每一页的招聘信息
   public function getInfo(){
+    echo '<p id="progress">正在获取数据······</p>';
+    ob_flush();
+    flush();
+    $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
     //读取文件，或者直接调用抓取所有的招聘信息链接
     $hrefsArray = $this->getIndex();
     $InfoArray = array();
@@ -97,17 +118,32 @@ class Pc{
             'education' => $education,
             'nums' => $nums,
             'jobCategory' => $jobCategory,
-            'jobInfo' => $jobInfo,
+            'jobInfo' => addslashes($jobInfo),
             'address' => $address,
             'url' => '<a href="'.$v.'" target="_blank"/>点击跳转到网页</a>',
         );
+        $this->add($oneInfo,$mysqli);
         $pageInfo[] = $oneInfo;
-        echo '访问到第'.($k+1).'个<br />';
+        // echo '访问到第'.($k+1).'个<br />';
+        echo '<script type="text/javascript">
+            document.getElementById("progress").innerHTML="现在在第'.($key+1).'页的'.($k+1).'条";
+        </script>';
         ob_flush();
         flush();
       }
+      $InfoArray[] = $pageInfo;
     }
-    $InfoArray[] = $pageInfo;
-    echo file_put_contents('./info.json', json_encode($InfoArray));
+    $resultLength = file_put_contents('./info.json', json_encode($InfoArray));
+    if($resultLength > 0){
+      echo '<script type="text/javascript">
+            document.getElementById("progress").innerHTML="获取数据完成,2s后跳转到查看页面";
+        </script>';
+      // echo '获取数据完成,2s后跳转到查看页面';
+      ob_flush();
+      flush();
+      sleep(2);
+      echo '<script type="text/javascript">self.location="http://localhost/curlpc/show.php"</script>';
+      exit();
+    }
   }
 }
