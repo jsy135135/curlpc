@@ -1,8 +1,4 @@
 <?php
-//phpQuery匹配类库
-require './phpQuery/phpQuery.php';
-//引入配置文件
-require './config.php';
 class Pc{
   //请求方法
   public function request($url,$https=true,$method='get',$data=null){
@@ -70,7 +66,9 @@ class Pc{
   }
   //访问并获取每一页的招聘信息
   public function getInfo(){
-    $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
+    if(USEMYSQL == 'yes'){
+      $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
+    }
     //读取文件，或者直接调用抓取所有的招聘信息链接
     $hrefsArray = $this->getIndex();
     $InfoArray = array();
@@ -136,7 +134,7 @@ class Pc{
       }
       $InfoArray[] = $pageInfo;
     }
-    $resultLength = file_put_contents('./info.json', json_encode($InfoArray));
+    $resultLength = file_put_contents('./data/info.json', json_encode($InfoArray));
     if($resultLength > 0){
       echo "<script type=\"text/javascript\">self.location=\"http://localhost/curlpc/show.php\"</script>";
       exit();

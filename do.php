@@ -17,6 +17,11 @@
   </div>
 </div>
 <?php
+//phpQuery匹配类库
+require './phpQuery/phpQuery.php';
+//引入配置文件
+require './conf/config.php';
+//引入类文件
 require './pc.class.php';
 set_time_limit(0);
 $pc = new Pc();
