@@ -115,10 +115,13 @@ foreach ($jobs as $kk => $vv) {
         jobInfo = jobInfo.replace(/(：|:|；|;|。)/g,'$1<br />').trim();
         jobInfo = jobInfo.replace(/&nbsp;/ig,'');
         //需要重点显示的字
-        var points = ['要求','职位描述','职位要求','优先条件','工作职责','任职要求','岗位职责'];
+        var points = ['要求','职位描述','职位要求','优先条件','工作职责','任职要求','岗位职责','memcached','redis','linux','lamp','mongo','mongodb','nosql',];
         for (var i = points.length - 1; i >= 0; i--) {
-            var reg = new RegExp(points[i]);
-            jobInfo = jobInfo.replace(reg,'<span class="jobspoints">'+points[i]+'</span>');
+            var reg = new RegExp(points[i],'i');
+            var rreg = reg.exec(jobInfo);
+            // console.log(rreg);
+            // console.log(RegExp);
+            jobInfo = jobInfo.replace(reg,'<span class="jobspoints">'+rreg+'</span>');
         }
         $('#myModalLabel').text(companyName);
         $('.modal-body').html(jobInfo);
