@@ -97,27 +97,31 @@ class Pc{
         $nums = $obj->find('.terminal-ul li:eq(6)')->text();
         //职位类别
         $jobCategory = $obj->find('.terminal-ul li:eq(7)')->text();
-        //招聘信息
         $jobInfo = $obj->find('.tab-inner-cont:eq(0)')->html();
-        $jobInfo = pq($jobInfo)->not('b,h2')->html();
-        $jobInfo = pq($jobInfo)->not('button')->html();
-        //工作地址
-        $address = $obj->find('h2:eq(1)')->text();
-        $oneInfo = array(
-            'title' => $title,
-            'companyName' => $companyName,
-            'salary' => $salary,
-            'location' => $location,
-            'time' => $time,
-            'jobType' => $jobType,
-            'experience' => $experience,
-            'education' => $education,
-            'nums' => $nums,
-            'jobCategory' => $jobCategory,
-            'jobInfo' => addslashes($jobInfo),
-            'address' => $address,
-            'url' => '<a href="'.$v.'" target="_blank"/>点击跳转到网页</a>',
-        );
+            $jobInfo = pq($jobInfo)->not('b,h2')->html();
+            $jobInfo = pq($jobInfo)->not('button')->html();
+            $jobInfo = pq($jobInfo)->text();
+            $jobInfo = str_replace('SWSStringCutStart', '', $jobInfo);
+            $jobInfo = str_replace('SWSStringCutEnd', '', $jobInfo);
+            $jobInfo = trim($jobInfo);
+            //工作地址
+            $address = $obj->find('h2:eq(1)')->text();
+            $address = trim(str_replace('查看职位地图', '', $address));
+            $oneInfo = array(
+                'title' => $title,
+                'companyName' => $companyName,
+                'salary' => $salary,
+                'location' => $location,
+                'time' => $time,
+                'jobType' => $jobType,
+                'experience' => $experience,
+                'education' => $education,
+                'nums' => $nums,
+                'jobCategory' => $jobCategory,
+                'jobInfo' => addslashes($jobInfo),
+                'address' => $address,
+                'url' => $v,
+            );
         $pageInfo[] = $oneInfo;
         //判断当前进度的index
         if($key == 0){

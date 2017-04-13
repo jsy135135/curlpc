@@ -76,8 +76,8 @@ foreach ($jobs as $kk => $vv) {
                 <p><?php echo $vv['experience']?></p>
                 <p><?php echo $vv['nums']?></p>
                 <p><?php echo $vv['jobCategory']?></p>
-                <p title="<?php echo trim(str_replace('查看职位地图', '', $vv['address']))?>">地址:<?php echo str_replace('查看职位地图', '', $vv['address'])?></p>
-                <p><?php echo $vv['url']?><span class="glyphicon glyphicon-link" aria-hidden="true"></span></p>
+                <p title="<?php echo $vv['address']?>">地址:<?php echo $vv['address']?></p>
+                <a href="<?php echo $vv['url']?>"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>点击查看详情</a>
             </div>
         </div>
     </div>
