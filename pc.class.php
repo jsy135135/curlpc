@@ -1,17 +1,51 @@
 <?php
 class Pc{
+  //获取免费代理
+  public function getProxy(){
+    // $url = 'http://www.kuaidaili.com/proxylist/1';
+    $url = 'http://www.kuaidaili.com/free/intr/1/';
+    $content = $this->request($url,false);
+    // var_dump($content);die();
+    $doc = phpQuery::newDocumentHTML($content);
+    $proxyArray = array();
+      foreach (pq('tr', $doc) as $trOne) {
+        $proxyOne = array();
+        foreach (pq('td', $trOne) as $tdOne) {
+          $td = pq($tdOne)->text();
+          $proxyOne[] = $td;
+        }
+        $proxyArray[] = $proxyOne;
+      }
+  return $proxyArray;
+    // var_dump($proxyArray);
+  }
   //请求方法
-  public function request($url,$https=true,$method='get',$data=null){
+  public function request($url,$https=true,$proxy=false,$method='get',$data=null){
     //1.初始化
     $ch = curl_init($url);
     //2.设置curl
     //返回数据不输出
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //开启支持gzip
+    curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate');
+    //设置超时限制
+    // curl_setopt($ch, CURLOPT_TIMEOUT, 5);
     //根据url设置referer
     $host = parse_url($url);
     $host = $host['host'];
     curl_setopt($ch, CURLOPT_REFERER, 'http://'.$host);
     curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36');
+    //确认是否开启代理
+    if($proxy === true){
+      // $proxyArray = $this->getProxy();
+      // $proxyOne = $proxyArray[rand(1,(count($proxyArray)-1))];
+      // // file_put_contents('./dbug',json_encode($proxyOne));
+      // //开启代理
+      // curl_setopt($ch, CURLOPT_PROXY, $proxyOne[0]);
+      // curl_setopt($ch, CURLOPT_PROXYPORT,$proxyOne[1]);
+      curl_setopt($ch, CURLOPT_PROXY, '61.191.41.130');
+      curl_setopt($ch, CURLOPT_PROXYPORT,80);
+    }
     //满足https
     if($https === true){
       //绕过ssl验证
@@ -41,7 +75,7 @@ class Pc{
     // echo mysqli_error($mysqli);
   }
   //通过招聘的列表页获取所有单页链接
-  public function getIndex($area='北京',$keyword='php',$page=1){
+  public function getIndex($area='上海',$keyword='php',$page=1){
     //定义一个篮子,用来存储所有的招聘链接
     $hrefsArray = array();
     //遍历,确定取几页
@@ -140,7 +174,7 @@ class Pc{
     }
     $resultLength = file_put_contents('./data/info.json', json_encode($InfoArray));
     if($resultLength > 0){
-      echo "<script type=\"text/javascript\">self.location=\"http://localhost/curlpc/show.php\"</script>";
+      echo "<script type=\"text/javascript\">self.location=\"http://localhost/ext/curlpc/show.php\"</script>";
       exit();
     }
   }
