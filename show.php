@@ -30,6 +30,11 @@
     </style>
 </head>
 <body>
+<div style="font-size: 16px;color: red;margin-left: 20px;">
+<?php
+echo file_get_contents('./data/total.txt');
+?>
+</div>
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:80%">
@@ -115,7 +120,7 @@ foreach ($jobs as $kk => $vv) {
         jobInfo = jobInfo.replace(/(：|:|；|;|。)/g,'$1<br />').trim();
         jobInfo = jobInfo.replace(/&nbsp;/ig,'');
         //需要重点显示的字
-        var points = ['要求','职位描述','职位要求','优先条件','工作职责','任职要求','岗位职责','memcached','redis','linux','lamp','mongo','mongodb','nosql','微信'];
+        var points = ['要求','职位描述','职位要求','优先条件','工作职责','任职要求','岗位职责','memcached','redis','linux','lamp','mongo','mongodb','nosql','微信','shell','前端技术栈者'];
         for (var i = points.length - 1; i >= 0; i--) {
             var reg = new RegExp(points[i],'i');
             var rreg = reg.exec(jobInfo);

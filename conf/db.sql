@@ -12,7 +12,7 @@ CREATE TABLE `zhilian` (
   `education` varchar(200) NOT NULL,
   `nums` varchar(200) NOT NULL,
   `jobCategory` varchar(200) NOT NULL,
-  `jobInfo` varchar(200) NOT NULL,
+  `jobInfo` text NOT NULL,
   `address` varchar(200) NOT NULL,
   `url` varchar(200) NOT NULL,PRIMARY KEY (`id`))
 ENGINE=MyISAM AUTO_INCREMENT=337 DEFAULT CHARSET=utf8

@@ -17,6 +17,7 @@
   </div>
 </div>
 <?php
+$start = time();
 //phpQuery匹配类库
 require './phpQuery/phpQuery.php';
 //引入配置文件
@@ -24,8 +25,8 @@ require './conf/config.php';
 //引入类文件
 require './pc.class.php';
 set_time_limit(0);
-$pc = new Pc();
-// $pc->getIndex();
+$keyword = isset($_GET['keyword']) ? $_GET['keyword']:KEYWORD;
+$pc = new Pc($keyword);
 $pc->getInfo();
 ?>
 </body>
