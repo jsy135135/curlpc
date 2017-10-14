@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>工程进行中</title>
+  <title>正在努力获取数据中......</title>
   <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -17,16 +17,17 @@
   </div>
 </div>
 <?php
-$start = time();
 //phpQuery匹配类库
 require './phpQuery/phpQuery.php';
 //引入配置文件
 require './conf/config.php';
 //引入类文件
 require './pc.class.php';
+//临时设置脚本无超时时间
 set_time_limit(0);
-$keyword = isset($_GET['keyword']) ? $_GET['keyword']:KEYWORD;
-$pc = new Pc($keyword);
+$area = isset($_POST['area']) ? $_POST['area']:AREA;
+$keyword = isset($_POST['keyword']) ? $_POST['keyword']:KEYWORD;
+$pc = new Pc($area,$keyword);
 $pc->getInfo();
 ?>
 </body>

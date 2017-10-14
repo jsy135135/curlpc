@@ -55,7 +55,7 @@ echo file_get_contents('./data/total.txt');
 </div>
 <?php
 $jobInfo = json_decode(file_get_contents('./data/info.json'),true);
-//数据处理为一维的
+// 数据处理为一维的
     $jobs = array();
     foreach ($jobInfo as $key => $value) {
       foreach ($value as $k => $v) {
@@ -101,7 +101,7 @@ foreach ($jobs as $kk => $vv) {
             ColorArray.splice(rand,1);
         Colors.push(Color);
     }
-    //随机出现颜色
+    // 随机出现颜色
     var panelColorArray = [];
     $('.panel').each(function(index, el) {
         $(this).addClass('panel-' + Colors[index]);
@@ -111,7 +111,7 @@ foreach ($jobs as $kk => $vv) {
         $(this).addClass('btn-' + Colors[index]);
     });
     $('.mybutton').click(function(event) {
-        //修改模态框里的相关具体信息
+        // 修改模态框里的相关具体信息
         var jobInfo = $(this).parent().parent().parent().find('#aaa').text();
         // var obj = $(this).parent().clone();
         // obj.find(':nth-child(n)').remove();
@@ -119,7 +119,7 @@ foreach ($jobs as $kk => $vv) {
         var companyName = $(this).parent().find('.companyName').text();
         jobInfo = jobInfo.replace(/(：|:|；|;|。)/g,'$1<br />').trim();
         jobInfo = jobInfo.replace(/&nbsp;/ig,'');
-        //需要重点显示的字
+        // 需要重点显示的字
         var points = ['要求','职位描述','职位要求','优先条件','工作职责','任职要求','岗位职责','memcached','redis','linux','lamp','mongo','mongodb','nosql','微信','shell','前端技术栈者'];
         for (var i = points.length - 1; i >= 0; i--) {
             var reg = new RegExp(points[i],'i');

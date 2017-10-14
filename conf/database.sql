@@ -1,3 +1,9 @@
+/*
+* @Author: jsy135135
+* @Date:   2017-10-14 19:42:17
+* @Last Modified by:   jsy135135
+* @Last Modified time: 2017-10-14 19:42:29
+*/
 CREATE DATABASE `curl`;
 use curl;
 CREATE TABLE `zhilian` (
@@ -15,4 +21,4 @@ CREATE TABLE `zhilian` (
   `jobInfo` text NOT NULL,
   `address` varchar(200) NOT NULL,
   `url` varchar(200) NOT NULL,PRIMARY KEY (`id`))
-ENGINE=MyISAM AUTO_INCREMENT=337 DEFAULT CHARSET=utf8
+ENGINE=MyISAM CHARSET=utf8
