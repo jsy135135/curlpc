@@ -22,13 +22,14 @@ require './phpQuery/phpQuery.php';
 //引入配置文件
 require './conf/config.php';
 //引入类文件
-require './pc.class.php';
+require './spider.class.php';
 //临时设置脚本无超时时间
 set_time_limit(0);
-$area = isset($_POST['area']) ? $_POST['area']:AREA;
-$keyword = isset($_POST['keyword']) ? $_POST['keyword']:KEYWORD;
-$pc = new Pc($area,$keyword);
-$pc->getInfo();
+$area = isset($_POST['area']) && !empty($_POST['area']) ? $_POST['area']:AREA;
+$keywords = isset($_POST['keywords']) && !empty($_POST['area']) ? $_POST['keywords']:KEYWORD;
+$spider = new Spider($area,$keywords);
+// $spider->getInfo();
+$spider->getInfoByMulti();
 ?>
 </body>
 </html>

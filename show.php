@@ -55,34 +55,41 @@ echo file_get_contents('./data/total.txt');
 </div>
 <?php
 $jobInfo = json_decode(file_get_contents('./data/info.json'),true);
-// 数据处理为一维的
-    $jobs = array();
-    foreach ($jobInfo as $key => $value) {
-      foreach ($value as $k => $v) {
-         $jobs[] = $v;
-      }
+function assoc_unique(&$arr, $key)
+{
+    $rAr=array();
+    for($i=0;$i<count($arr);$i++)
+    {
+        if(!isset($rAr[$arr[$i][$key]]))
+        {
+            $rAr[$arr[$i][$key]]=$arr[$i];
+        }
     }
-foreach ($jobs as $kk => $vv) {
+    // var_dump($rAr);die;
+    $arr=array_values($rAr);
+}
+    assoc_unique($jobInfo,'companyName');
+foreach ($jobInfo as $key => $value) {
 ?>
     <div class="col-sm-4" data-toggle="modal" data-target=".bs-example-modal-lg">
         <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span><span class="companyName" title="<?php echo ($kk+1).'.'.$vv['companyName']?>"><?php echo ($kk+1).'.'.$vv['companyName']?></span><button class="mybutton btn btn-small" style="float: right;margin: -6px">
+                <h3 class="panel-title"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span><span class="companyName" title="<?php echo ($key+1).'.'.$value['companyName']?>"><?php echo ($key+1).'.'.$value['companyName']?></span><button class="mybutton btn btn-small" style="float: right;margin: -6px">
                     技能要求
                 </button></h3>
             </div>
             <div class="panel-body">
-                <div style="display: none;" id='aaa'><?php echo $vv['jobInfo'] ?></div>
-                <p title="<?php echo $vv['title']?>"><?php echo $vv['title']?></p>
-                <p><?php echo $vv['salary']?></p>
-                <p><?php echo $vv['location']?></p>
-                <p><?php echo $vv['time']?></p>
-                <p><?php echo $vv['jobType']?></p>
-                <p><?php echo $vv['experience']?></p>
-                <p><?php echo $vv['nums']?></p>
-                <p><?php echo $vv['jobCategory']?></p>
-                <p title="<?php echo $vv['address']?>">地址:<?php echo $vv['address']?></p>
-                <a href="<?php echo $vv['url']?>"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>点击查看详情</a>
+                <div style="display: none;" id='aaa'><?php echo $value['jobInfo'] ?></div>
+                <p title="<?php echo $value['title']?>"><?php echo $value['title']?></p>
+                <p><?php echo $value['salary']?></p>
+                <p><?php echo $value['location']?></p>
+                <p><?php echo $value['time']?></p>
+                <p><?php echo $value['jobType']?></p>
+                <p><?php echo $value['experience']?></p>
+                <p><?php echo $value['nums']?></p>
+                <p><?php echo $value['jobCategory']?></p>
+                <p title="<?php echo $value['address']?>">地址:<?php echo $value['address']?></p>
+                <a href="<?php echo $value['url']?>"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>点击查看详情</a>
             </div>
         </div>
     </div>
