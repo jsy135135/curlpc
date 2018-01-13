@@ -68,7 +68,7 @@ function assoc_unique(&$arr, $key)
     // var_dump($rAr);die;
     $arr=array_values($rAr);
 }
-    assoc_unique($jobInfo,'companyName');
+    // assoc_unique($jobInfo,'companyName');
 foreach ($jobInfo as $key => $value) {
 ?>
     <div class="col-sm-4" data-toggle="modal" data-target=".bs-example-modal-lg">

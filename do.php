@@ -17,6 +17,9 @@
   </div>
 </div>
 <?php
+// cli下设置当前目录
+$current_dir = dirname(__FILE__);
+chdir($current_dir);
 //phpQuery匹配类库
 require './phpQuery/phpQuery.php';
 //引入配置文件
