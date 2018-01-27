@@ -32,7 +32,7 @@
 <body>
 <div style="font-size: 16px;color: red;margin-left: 20px;">
 <?php
-echo file_get_contents('./data/total.txt');
+//echo file_get_contents('./data/total.txt');
 ?>
 </div>
 <!-- 模态框（Modal） -->
@@ -140,6 +140,11 @@ foreach ($jobInfo as $key => $value) {
         $('#myModal').modal();
     });
     </script>
+<?php
+$info = $_SERVER;
+$mongo = new MongoClient();
+$mongo->curlpc->logs->insert($info);
+?>
 </body>
 
 </html>
